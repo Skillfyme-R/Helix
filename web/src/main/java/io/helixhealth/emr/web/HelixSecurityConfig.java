@@ -8,13 +8,17 @@
  */
 package io.helixhealth.emr.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -24,50 +28,55 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class HelixSecurityConfig {
 
+    @Value("${helix.admin.password:Admin1234!}")
+    private String adminPassword;
+
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+        return new InMemoryUserDetailsManager(
+            User.withUsername("admin")
+                .password(encoder.encode(adminPassword))
+                .roles("ADMIN", "USER")
+                .build()
+        );
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // Authorization rules
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
                 .requestMatchers(
-                    new AntPathRequestMatcher("/helixemr/login"),
-                    new AntPathRequestMatcher("/helixemr/setup/**"),
-                    new AntPathRequestMatcher("/helixemr/health/**"),
-                    new AntPathRequestMatcher("/helixemr/images/**"),
-                    new AntPathRequestMatcher("/helixemr/css/**"),
-                    new AntPathRequestMatcher("/helixemr/js/**"),
-                    new AntPathRequestMatcher("/helixemr/static/**"),
-                    new AntPathRequestMatcher("/helixemr/WEB-INF/**")
+                    new AntPathRequestMatcher("/login"),
+                    new AntPathRequestMatcher("/loginServlet"),
+                    new AntPathRequestMatcher("/setup/**"),
+                    new AntPathRequestMatcher("/health/**"),
+                    new AntPathRequestMatcher("/images/**"),
+                    new AntPathRequestMatcher("/css/**"),
+                    new AntPathRequestMatcher("/js/**"),
+                    new AntPathRequestMatcher("/static/**")
                 ).permitAll()
-                // REST API requires authentication
-                .requestMatchers(new AntPathRequestMatcher("/helixemr/api/**")).authenticated()
-                // All other requests require authentication
+                .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                 .anyRequest().authenticated()
             )
-            // Form login
             .formLogin(form -> form
-                .loginPage("/helixemr/login")
-                .loginProcessingUrl("/helixemr/loginServlet")
-                .defaultSuccessUrl("/helixemr/dashboard", true)
-                .failureUrl("/helixemr/login?error=true")
+                .loginPage("/login")
+                .loginProcessingUrl("/loginServlet")
+                .defaultSuccessUrl("/dashboard", true)
+                .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
             )
-            // Logout
             .logout(logout -> logout
-                .logoutUrl("/helixemr/logout")
-                .logoutSuccessUrl("/helixemr/login?logout=true")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID", "HELIX_SESSION")
             )
-            // Session management
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .maximumSessions(3)
-                .expiredUrl("/helixemr/login?sessionExpired=true")
+                .expiredUrl("/login?sessionExpired=true")
             )
-            // Security headers
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
                 .contentSecurityPolicy(csp -> csp
@@ -84,9 +93,8 @@ public class HelixSecurityConfig {
                     referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                 )
             )
-            // CSRF protection (enabled by default; exclude REST API if using token-based auth)
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers(new AntPathRequestMatcher("/helixemr/api/**"))
+                .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**"))
             );
 
         return http.build();

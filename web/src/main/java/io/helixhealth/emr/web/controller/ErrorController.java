@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /** Handles application error pages referenced in web.xml error-page declarations. */
 @Controller
-@RequestMapping("/helixemr/error")
+@RequestMapping("/error")
 public class ErrorController {
 
     @GetMapping("/404")

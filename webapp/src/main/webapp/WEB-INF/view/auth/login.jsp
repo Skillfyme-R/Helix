@@ -51,7 +51,7 @@
     </c:if>
 
     <!-- Login form -->
-    <form action="${pageContext.request.contextPath}/helixemr/loginServlet"
+    <form action="${pageContext.request.contextPath}/loginServlet"
           method="POST"
           autocomplete="on"
           novalidate>
@@ -96,7 +96,7 @@
     </form>
 
     <div style="text-align:center; margin-top:var(--helix-space-md);">
-        <a href="${pageContext.request.contextPath}/helixemr/forgotPassword"
+        <a href="${pageContext.request.contextPath}/forgotPassword"
            style="font-size:13px; color:var(--helix-text-secondary);">
             Forgot password?
         </a>

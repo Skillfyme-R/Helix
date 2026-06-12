@@ -25,7 +25,7 @@ import java.util.List;
 
 /** MVC controller for patient management views and REST endpoints in HelixEMR. */
 @Controller
-@RequestMapping("/helixemr/patients")
+@RequestMapping("/patients")
 public class PatientController {
 
     private static final Logger log = LoggerFactory.getLogger(PatientController.class);
@@ -62,7 +62,7 @@ public class PatientController {
     public String patientDashboard(@PathVariable Integer patientId, Model model) {
         Patient patient = patientService().getPatient(patientId);
         if (patient == null) {
-            return "redirect:/helixemr/patients?error=notfound";
+            return "redirect:/patients?error=notfound";
         }
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "Patient Dashboard – HelixEMR");
@@ -80,7 +80,7 @@ public class PatientController {
     public String savePatient(@ModelAttribute Patient patient) {
         patientService().savePatient(patient);
         log.info("Patient saved via web: {}", patient.getMedicalRecordNumber());
-        return "redirect:/helixemr/patients/" + patient.getPatientId();
+        return "redirect:/patients/" + patient.getPatientId();
     }
 
 }

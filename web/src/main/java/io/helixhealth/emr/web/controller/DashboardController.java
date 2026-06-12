@@ -17,7 +17,7 @@ import java.time.LocalDate;
 
 /** HelixEMR main dashboard controller. */
 @Controller
-@RequestMapping("/helixemr")
+@RequestMapping("")
 public class DashboardController {
 
     @GetMapping({"/", "/dashboard"})

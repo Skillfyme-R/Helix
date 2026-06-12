@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** REST API endpoints for patient data (JSON). Separate from the MVC PatientController. */
 @RestController
-@RequestMapping("/helixemr/api/patients")
+@RequestMapping("/api/patients")
 public class PatientRestController {
 
     @GetMapping("/search")
