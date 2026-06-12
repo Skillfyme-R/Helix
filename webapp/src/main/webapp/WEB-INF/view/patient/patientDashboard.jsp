@@ -17,7 +17,7 @@
     </div>
     <div>
         <div class="helix-patient-name">
-            <c:out value="${patient}"/>
+            <c:out value="${patient.givenName}"/> <c:out value="${patient.familyName}"/>
         </div>
         <div class="helix-patient-mrn">
             MRN: <c:out value="${patient.medicalRecordNumber}"/>

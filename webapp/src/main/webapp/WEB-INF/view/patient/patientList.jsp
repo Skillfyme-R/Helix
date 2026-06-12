@@ -117,7 +117,7 @@
                                 <td>
                                     <a href="${pageContext.request.contextPath}/patients/${patient.patientId}"
                                        style="font-weight:600;color:var(--helix-primary);">
-                                        <c:out value="${patient}"/>
+                                        <c:out value="${patient.givenName}"/> <c:out value="${patient.familyName}"/>
                                     </a>
                                 </td>
                                 <td><c:out value="${patient.gender}"/></td>

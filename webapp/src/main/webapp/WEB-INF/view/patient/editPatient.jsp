@@ -33,6 +33,28 @@
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--helix-space-md);">
             <div class="helix-form-group">
+                <label class="helix-label" for="givenName">First Name</label>
+                <input type="text"
+                       id="givenName"
+                       name="givenName"
+                       class="helix-input"
+                       value="<c:out value="${patient.givenName}"/>"
+                       placeholder="First name"
+                       required maxlength="100"/>
+            </div>
+
+            <div class="helix-form-group">
+                <label class="helix-label" for="familyName">Last Name</label>
+                <input type="text"
+                       id="familyName"
+                       name="familyName"
+                       class="helix-input"
+                       value="<c:out value="${patient.familyName}"/>"
+                       placeholder="Last name"
+                       maxlength="100"/>
+            </div>
+
+            <div class="helix-form-group">
                 <label class="helix-label" for="medicalRecordNumber">Medical Record Number</label>
                 <input type="text"
                        id="medicalRecordNumber"

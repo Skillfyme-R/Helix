@@ -15,6 +15,48 @@
                https://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- ================================================================ -->
+    <!--  DataSource – MariaDB                                             -->
+    <!-- ================================================================ -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.mariadb.jdbc.Driver"/>
+        <property name="url"      value="${helixemr.db.url:jdbc:mariadb://helixemr-db:3306/helixemr?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC}"/>
+        <property name="username" value="${helixemr.db.user:helixemr}"/>
+        <property name="password" value="${helixemr.db.password:helixemr}"/>
+    </bean>
+
+    <!-- ================================================================ -->
+    <!--  JPA / Hibernate EntityManagerFactory                            -->
+    <!-- ================================================================ -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource"             ref="dataSource"/>
+        <property name="packagesToScan"         value="io.helixhealth.emr"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database"         value="MYSQL"/>
+                <property name="showSql"          value="false"/>
+                <property name="generateDdl"      value="true"/>
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</prop>
+                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.jdbc.time_zone">UTC</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- ================================================================ -->
+    <!--  Transaction Manager                                              -->
+    <!-- ================================================================ -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- ================================================================ -->
     <!--  HelixEMR Service Context Configuration                          -->
     <!--  Helix Health - Enterprise EMR Platform                          -->
     <!-- ================================================================ -->
@@ -34,8 +76,13 @@
     <!--  Core Services                                                    -->
     <!-- ================================================================ -->
 
+    <bean id="patientDao"
+          class="io.helixhealth.emr.api.db.PatientDAOImpl"/>
+
     <bean id="patientService"
-          class="io.helixhealth.emr.api.impl.PatientServiceImpl"/>
+          class="io.helixhealth.emr.api.impl.PatientServiceImpl">
+        <property name="patientDao" ref="patientDao"/>
+    </bean>
 
     <bean id="personService"
           class="io.helixhealth.emr.api.impl.PersonServiceImpl"/>
