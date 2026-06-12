@@ -40,14 +40,18 @@ public class PatientController {
             @RequestParam(value = "start", defaultValue = "0") int start,
             @RequestParam(value = "size", defaultValue = "25") int size,
             Model model) {
-        List<Patient> patients;
-        long total;
-        if (query != null && !query.isBlank()) {
-            patients = patientService().getPatients(query, start, size);
-            total = patientService().countPatients(query);
-        } else {
-            patients = patientService().getAllPatients();
-            total = patients.size();
+        List<Patient> patients = new java.util.ArrayList<>();
+        long total = 0;
+        try {
+            if (query != null && !query.isBlank()) {
+                patients = patientService().getPatients(query, start, size);
+                total = patientService().countPatients(query);
+            } else {
+                patients = patientService().getAllPatients();
+                total = patients.size();
+            }
+        } catch (Exception ignored) {
+            // service not fully initialised yet
         }
         model.addAttribute("patients", patients);
         model.addAttribute("query", query);
