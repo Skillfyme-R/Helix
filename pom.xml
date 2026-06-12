@@ -98,6 +98,7 @@
         <h2.version>2.3.232</h2.version>
         <c3p0.version>0.10.1</c3p0.version>
         <ehcache.version>3.10.8</ehcache.version>
+        <jakarta.xml.bind.version>4.0.2</jakarta.xml.bind.version>
         <velocity.version>2.4</velocity.version>
 
         <!-- Plugin versions -->
@@ -176,6 +177,33 @@
                 <groupId>org.ehcache</groupId>
                 <artifactId>ehcache</artifactId>
                 <version>${ehcache.version}</version>
+                <classifier>jakarta</classifier>
+                <exclusions>
+                    <!-- Exclude old jaxb-runtime that pulls from dead maven.java.net repo -->
+                    <exclusion>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-runtime</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- Modern JAXB replacements (override dead maven.java.net transitive deps) -->
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>4.0.5</version>
             </dependency>
 
             <!-- Web -->

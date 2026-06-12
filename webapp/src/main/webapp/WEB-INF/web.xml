@@ -5,18 +5,13 @@
              https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <!-- ================================================================ -->
-    <!--  HelixEMR Web Application Descriptor                            -->
-    <!--  Helix Health – Enterprise Electronic Medical Record System      -->
-    <!--  Built ${TIMESTAMP} | Version ${project.version}                -->
-    <!-- ================================================================ -->
+    <!-- HelixEMR Web Application Descriptor -->
+    <!-- Helix Health: Enterprise Electronic Medical Record System -->
 
     <display-name>HelixEMR</display-name>
     <description>Helix Health Electronic Medical Record System</description>
 
-    <!-- ---------------------------------------------------------------- -->
-    <!--  Context parameters                                               -->
-    <!-- ---------------------------------------------------------------- -->
+    <!-- Context parameters -->
 
     <context-param>
         <param-name>APPLICATION_NAME</param-name>
@@ -46,9 +41,7 @@
         </param-value>
     </context-param>
 
-    <!-- ---------------------------------------------------------------- -->
-    <!--  Listeners                                                        -->
-    <!-- ---------------------------------------------------------------- -->
+    <!-- Listeners -->
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -58,9 +51,7 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
-    <!-- ---------------------------------------------------------------- -->
-    <!--  Filters (order matters: encoding first)                         -->
-    <!-- ---------------------------------------------------------------- -->
+    <!-- Filters (order matters: encoding first) -->
 
     <filter>
         <filter-name>encodingFilter</filter-name>
@@ -82,6 +73,10 @@
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>contextAttribute</param-name>
+            <param-value>org.springframework.web.servlet.FrameworkServlet.CONTEXT.helixemr</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -94,12 +89,10 @@
     </filter>
     <filter-mapping>
         <filter-name>helixRequestFilter</filter-name>
-        <url-pattern>/helixemr/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- ---------------------------------------------------------------- -->
-    <!--  DispatcherServlet                                                -->
-    <!-- ---------------------------------------------------------------- -->
+    <!-- DispatcherServlet -->
 
     <servlet>
         <servlet-name>helixemr</servlet-name>
@@ -116,38 +109,34 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>helixemr</servlet-name>
-        <url-pattern>/helixemr/*</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- ---------------------------------------------------------------- -->
-    <!--  Session configuration                                            -->
-    <!-- ---------------------------------------------------------------- -->
+    <!-- Session configuration -->
 
     <session-config>
         <session-timeout>30</session-timeout>
         <cookie-config>
             <name>HELIX_SESSION</name>
             <http-only>true</http-only>
-            <secure>false</secure><!-- set true in production behind HTTPS -->
+            <secure>false</secure>
         </cookie-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
-    <!-- ---------------------------------------------------------------- -->
-    <!--  Error pages                                                      -->
-    <!-- ---------------------------------------------------------------- -->
+    <!-- Error pages -->
 
     <error-page>
         <error-code>404</error-code>
-        <location>/helixemr/error/404</location>
+        <location>/error/404</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/helixemr/error/500</location>
+        <location>/error/500</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
-        <location>/helixemr/error/500</location>
+        <location>/error/500</location>
     </error-page>
 
     <!-- Welcome file -->

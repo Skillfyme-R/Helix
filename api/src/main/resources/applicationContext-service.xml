@@ -4,7 +4,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans
                https://www.springframework.org/schema/beans/spring-beans.xsd
@@ -13,9 +12,7 @@
            http://www.springframework.org/schema/tx
                https://www.springframework.org/schema/tx/spring-tx.xsd
            http://www.springframework.org/schema/aop
-               https://www.springframework.org/schema/aop/spring-aop.xsd
-           http://www.springframework.org/schema/cache
-               https://www.springframework.org/schema/cache/spring-cache.xsd">
+               https://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- ================================================================ -->
     <!--  HelixEMR Service Context Configuration                          -->
@@ -24,7 +21,6 @@
 
     <context:annotation-config/>
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <cache:annotation-driven/>
 
     <!-- Component scanning for HelixEMR API -->
     <context:component-scan base-package="io.helixhealth.emr.api"/>
@@ -39,89 +35,55 @@
     <!-- ================================================================ -->
 
     <bean id="patientService"
-          class="io.helixhealth.emr.api.impl.PatientServiceImpl">
-        <property name="patientDao" ref="patientDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.PatientServiceImpl"/>
 
     <bean id="personService"
-          class="io.helixhealth.emr.api.impl.PersonServiceImpl">
-        <property name="personDao" ref="personDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.PersonServiceImpl"/>
 
     <bean id="conceptService"
-          class="io.helixhealth.emr.api.impl.ConceptServiceImpl">
-        <property name="conceptDao" ref="conceptDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.ConceptServiceImpl"/>
 
     <bean id="encounterService"
-          class="io.helixhealth.emr.api.impl.EncounterServiceImpl">
-        <property name="encounterDao" ref="encounterDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.EncounterServiceImpl"/>
 
     <bean id="obsService"
-          class="io.helixhealth.emr.api.impl.ObsServiceImpl">
-        <property name="obsDao" ref="obsDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.ObsServiceImpl"/>
 
     <bean id="orderService"
-          class="io.helixhealth.emr.api.impl.OrderServiceImpl">
-        <property name="orderDao" ref="orderDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.OrderServiceImpl"/>
 
     <bean id="userService"
-          class="io.helixhealth.emr.api.impl.UserServiceImpl">
-        <property name="userDao" ref="userDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.UserServiceImpl"/>
 
     <bean id="locationService"
-          class="io.helixhealth.emr.api.impl.LocationServiceImpl">
-        <property name="locationDao" ref="locationDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.LocationServiceImpl"/>
 
     <bean id="visitService"
-          class="io.helixhealth.emr.api.impl.VisitServiceImpl">
-        <property name="visitDao" ref="visitDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.VisitServiceImpl"/>
 
     <bean id="providerService"
-          class="io.helixhealth.emr.api.impl.ProviderServiceImpl">
-        <property name="providerDao" ref="providerDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.ProviderServiceImpl"/>
 
     <bean id="conditionService"
-          class="io.helixhealth.emr.api.impl.ConditionServiceImpl">
-        <property name="conditionDao" ref="conditionDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.ConditionServiceImpl"/>
 
     <bean id="diagnosisService"
-          class="io.helixhealth.emr.api.impl.DiagnosisServiceImpl">
-        <property name="diagnosisDao" ref="diagnosisDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.DiagnosisServiceImpl"/>
 
     <bean id="medicationDispenseService"
-          class="io.helixhealth.emr.api.impl.MedicationDispenseServiceImpl">
-        <property name="medicationDispenseDao" ref="medicationDispenseDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.MedicationDispenseServiceImpl"/>
 
     <bean id="cohortService"
-          class="io.helixhealth.emr.api.impl.CohortServiceImpl">
-        <property name="cohortDao" ref="cohortDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.CohortServiceImpl"/>
 
     <bean id="formService"
-          class="io.helixhealth.emr.api.impl.FormServiceImpl">
-        <property name="formDao" ref="formDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.FormServiceImpl"/>
 
     <bean id="programWorkflowService"
-          class="io.helixhealth.emr.api.impl.ProgramWorkflowServiceImpl">
-        <property name="programWorkflowDao" ref="programWorkflowDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.ProgramWorkflowServiceImpl"/>
 
     <bean id="administrationService"
-          class="io.helixhealth.emr.api.impl.AdministrationServiceImpl">
-        <property name="administrationDao" ref="administrationDao"/>
-    </bean>
+          class="io.helixhealth.emr.api.impl.AdministrationServiceImpl"/>
 
     <bean id="schedulerService"
           class="io.helixhealth.emr.api.impl.SchedulerServiceImpl">

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /** Spring Security configuration for HelixEMR. */
 @Configuration
@@ -30,16 +31,17 @@ public class HelixSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
                 .requestMatchers(
-                    "/helixemr/login",
-                    "/helixemr/setup/**",
-                    "/helixemr/health/**",
-                    "/helixemr/images/**",
-                    "/helixemr/css/**",
-                    "/helixemr/js/**",
-                    "/helixemr/static/**"
+                    new AntPathRequestMatcher("/helixemr/login"),
+                    new AntPathRequestMatcher("/helixemr/setup/**"),
+                    new AntPathRequestMatcher("/helixemr/health/**"),
+                    new AntPathRequestMatcher("/helixemr/images/**"),
+                    new AntPathRequestMatcher("/helixemr/css/**"),
+                    new AntPathRequestMatcher("/helixemr/js/**"),
+                    new AntPathRequestMatcher("/helixemr/static/**"),
+                    new AntPathRequestMatcher("/helixemr/WEB-INF/**")
                 ).permitAll()
                 // REST API requires authentication
-                .requestMatchers("/helixemr/api/**").authenticated()
+                .requestMatchers(new AntPathRequestMatcher("/helixemr/api/**")).authenticated()
                 // All other requests require authentication
                 .anyRequest().authenticated()
             )
@@ -84,7 +86,7 @@ public class HelixSecurityConfig {
             )
             // CSRF protection (enabled by default; exclude REST API if using token-based auth)
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/helixemr/api/**")
+                .ignoringRequestMatchers(new AntPathRequestMatcher("/helixemr/api/**"))
             );
 
         return http.build();

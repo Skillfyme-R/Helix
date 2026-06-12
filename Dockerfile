@@ -12,6 +12,11 @@ LABEL stage=builder
 
 WORKDIR /build
 
+# Install Maven directly (avoids wrapper downloading Maven zip at build time)
+RUN apt-get update -q && \
+    apt-get install -y --no-install-recommends maven && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy Maven wrapper and POMs first (cache dependency downloads)
 COPY .mvn/             .mvn/
 COPY mvnw              mvnw
@@ -24,7 +29,7 @@ COPY web/pom.xml       web/pom.xml
 COPY webapp/pom.xml    webapp/pom.xml
 COPY liquibase/pom.xml liquibase/pom.xml
 
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -P skip-all-checks -q
+RUN mvn dependency:resolve -P skip-all-checks --fail-at-end -q || true
 
 # Copy source
 COPY api/     api/
@@ -36,7 +41,7 @@ COPY test/    test/
 COPY bom/     bom/
 
 # Build the WAR (skip tests in Docker build – run separately in CI)
-RUN ./mvnw package -P skip-all-checks -DskipTests -q
+RUN mvn package -P skip-all-checks -DskipTests -q
 
 # ─── Runtime Stage ────────────────────────────────────────────────────────────
 FROM eclipse-temurin:21-jre-jammy AS runtime
