@@ -95,6 +95,9 @@ public class HelixSecurityConfig {
             )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**"))
+            )
+            .exceptionHandling(ex -> ex
+                .accessDeniedPage("/login?sessionExpired=true")
             );
 
         return http.build();
