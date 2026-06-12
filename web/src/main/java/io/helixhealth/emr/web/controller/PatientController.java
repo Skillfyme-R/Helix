@@ -81,10 +81,20 @@ public class PatientController {
     }
 
     @PostMapping("/save")
-    public String savePatient(@ModelAttribute Patient patient) {
-        patientService().savePatient(patient);
-        log.info("Patient saved via web: {}", patient.getMedicalRecordNumber());
-        return "redirect:/patients/" + patient.getPatientId();
+    public String savePatient(@ModelAttribute Patient patient, Model model) {
+        try {
+            patientService().savePatient(patient);
+            log.info("Patient saved via web: {}", patient.getMedicalRecordNumber());
+            if (patient.getPatientId() != null) {
+                return "redirect:/patients/" + patient.getPatientId();
+            }
+        } catch (Exception e) {
+            log.error("Failed to save patient", e);
+            model.addAttribute("error", "Could not save patient: " + e.getMessage());
+            model.addAttribute("pageTitle", "Register Patient – HelixEMR");
+            return "patient/editPatient";
+        }
+        return "redirect:/patients";
     }
 
 }

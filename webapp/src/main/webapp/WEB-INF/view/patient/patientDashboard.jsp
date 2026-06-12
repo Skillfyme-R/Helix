@@ -28,7 +28,7 @@
         </div>
     </div>
     <div style="margin-left:auto; display:flex; gap:12px; align-items:flex-start;">
-        <a href="${pageContext.request.contextPath}/helixemr/patients/${patient.patientId}/edit"
+        <a href="${pageContext.request.contextPath}/patients/${patient.patientId}/edit"
            class="helix-btn helix-btn-outline helix-btn-sm"
            style="color:white; border-color:rgba(255,255,255,0.6);">
             Edit Patient
@@ -142,7 +142,7 @@
 <div class="helix-card">
     <div class="helix-card-header">
         <h2 class="helix-card-title">Encounters</h2>
-        <a href="${pageContext.request.contextPath}/helixemr/encounters/add?patientId=${patient.patientId}"
+        <a href="${pageContext.request.contextPath}/encounters/add?patientId=${patient.patientId}"
            class="helix-btn helix-btn-primary helix-btn-sm">+ New Encounter</a>
     </div>
     <p style="color:var(--helix-text-secondary); text-align:center; padding:var(--helix-space-xl);">
@@ -151,7 +151,7 @@
 </div>
 
 <!-- Back link -->
-<a href="${pageContext.request.contextPath}/helixemr/patients"
+<a href="${pageContext.request.contextPath}/patients"
    class="helix-btn helix-btn-outline" style="margin-bottom:var(--helix-space-lg);">
     &larr; Back to Patient List
 </a>

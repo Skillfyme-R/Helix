@@ -20,7 +20,7 @@
         </h2>
     </div>
 
-    <form action="${pageContext.request.contextPath}/helixemr/patients/save"
+    <form action="${pageContext.request.contextPath}/patients/save"
           method="POST" novalidate>
 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -81,7 +81,7 @@
 
         <!-- Action Buttons -->
         <div class="helix-d-flex helix-gap-md" style="margin-top:var(--helix-space-lg); justify-content:flex-end;">
-            <a href="${pageContext.request.contextPath}/helixemr/patients"
+            <a href="${pageContext.request.contextPath}/patients"
                class="helix-btn helix-btn-outline">Cancel</a>
             <button type="submit" class="helix-btn helix-btn-primary">
                 <c:choose>
