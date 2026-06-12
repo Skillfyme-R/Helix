@@ -91,7 +91,20 @@ a:hover { color: var(--helix-primary-dark); text-decoration: none; }
 /* ================================================================
    App Shell
    ================================================================ */
-.helix-app { display: flex; min-height: 100vh; }
+.helix-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Right-hand column wrapper: everything except the sidebar */
+.helix-content-col {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    min-width: 0;               /* prevent flex blowout */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 /* ================================================================
    Sidebar
@@ -241,9 +254,9 @@ a:hover { color: var(--helix-primary-dark); text-decoration: none; }
    Top Header
    ================================================================ */
 .helix-header {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: var(--sidebar-width);
+    left: 0;
     right: 0;
     height: var(--header-height);
     background: rgba(255,255,255,0.92);
@@ -315,11 +328,9 @@ a:hover { color: var(--helix-primary-dark); text-decoration: none; }
    Main Content
    ================================================================ */
 .helix-main {
-    margin-left: var(--sidebar-width);
-    margin-top: var(--header-height);
     flex: 1;
     padding: 28px 32px 40px;
-    min-height: calc(100vh - var(--header-height));
+    min-width: 0;
 }
 
 /* ================================================================
@@ -502,9 +513,10 @@ a:hover { color: var(--helix-primary-dark); text-decoration: none; }
    ================================================================ */
 .helix-dashboard-row {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(0, 1fr) 340px;
     gap: 22px;
     margin-bottom: 22px;
+    align-items: start;
 }
 
 /* ================================================================
@@ -841,13 +853,17 @@ a:hover { color: var(--helix-primary-dark); text-decoration: none; }
    Footer
    ================================================================ */
 .helix-footer {
-    margin-left: var(--sidebar-width);
-    padding: 14px 32px;
+    padding: 16px 32px;
     border-top: 1px solid var(--helix-border);
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(8px);
-    font-size: 12px; color: var(--helix-text-secondary);
-    display: flex; justify-content: space-between; align-items: center;
+    background: var(--helix-surface);
+    font-size: 12px;
+    color: var(--helix-text-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: auto;
 }
 
 /* ================================================================
@@ -892,8 +908,7 @@ a:hover { color: var(--helix-primary-dark); text-decoration: none; }
 @media (max-width: 640px) {
     :root { --sidebar-width: 0px; }
     .helix-sidebar { display: none; }
-    .helix-header  { left: 0; }
-    .helix-main, .helix-footer { margin-left: 0; }
+    .helix-content-col { margin-left: 0; }
     .helix-stats-grid { grid-template-columns: 1fr 1fr; }
     .helix-welcome-banner { flex-direction: column; gap: 12px; align-items: flex-start; }
     .helix-action-grid { grid-template-columns: 1fr 1fr; }
