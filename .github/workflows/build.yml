@@ -41,11 +41,8 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Make mvnw executable
-        run: chmod +x mvnw
-
       - name: Build and test
-        run: ./mvnw verify -P skip-all-checks --no-transfer-progress
+        run: mvn verify -P skip-all-checks --no-transfer-progress
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -98,11 +95,8 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Make mvnw executable
-        run: chmod +x mvnw
-
       - name: Run integration tests
-        run: ./mvnw verify -P integration-test --no-transfer-progress
+        run: mvn verify -P integration-test --no-transfer-progress
         env:
           HELIX_DB_HOSTNAME: localhost
           HELIX_DB_NAME: helixemr_test
@@ -185,11 +179,8 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Make mvnw executable
-        run: chmod +x mvnw
-
       - name: Build for CodeQL
-        run: ./mvnw compile -P skip-all-checks --no-transfer-progress
+        run: mvn compile -P skip-all-checks --no-transfer-progress
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
