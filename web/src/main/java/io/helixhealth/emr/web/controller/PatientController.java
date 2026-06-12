@@ -63,7 +63,7 @@ public class PatientController {
     }
 
     @GetMapping("/{patientId}")
-    public String patientDashboard(@PathVariable Integer patientId, Model model) {
+    public String patientDashboard(@PathVariable("patientId") Integer patientId, Model model) {
         Patient patient = patientService().getPatient(patientId);
         if (patient == null) {
             return "redirect:/patients?error=notfound";

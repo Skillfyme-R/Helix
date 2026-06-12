@@ -33,7 +33,7 @@ public class PatientRestController {
     }
 
     @GetMapping("/{patientId}")
-    public ResponseEntity<Patient> getPatient(@PathVariable Integer patientId) {
+    public ResponseEntity<Patient> getPatient(@PathVariable("patientId") Integer patientId) {
         Patient patient = Context.getPatientService().getPatient(patientId);
         if (patient == null) {
             return ResponseEntity.notFound().build();
